@@ -1,6 +1,5 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {
   CssBaseline,
@@ -14,24 +13,21 @@ import {
 } from '@material-ui/core';
 import PenIcon from '@material-ui/icons/Create';
 
-import PostsList from './components/PostsList';
-
-const useStyle = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  container: {
-    marginTop: theme.spacing(3),
-  },
-}));
+import useStyle from './styles';
+import PostsList from './components/PostsList/index';
+import AddPostForm from './components/AddPostForm/index';
 
 const App = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const classes = useStyle();
 
   return (
@@ -54,7 +50,12 @@ const App = () => {
               <Link to="http://localhost:3000/posts">FullStackBlog</Link>
             </Typography>
 
-            <Button color="primary" variant="outlined" startIcon={<PenIcon />}>
+            <Button
+              color="primary"
+              variant="outlined"
+              startIcon={<PenIcon />}
+              onCLick={handleOpen()}
+            >
               Nova Postagem
             </Button>
           </Toolbar>
@@ -64,11 +65,13 @@ const App = () => {
           <Grid item xs={12}>
             <Switch>
               <Route exact path="/posts" conponent={PostsList} />
-              <Route exact path="/posts" conponent={PostsList} />
             </Switch>
+            <Redirect from="/" to="/posts" />
           </Grid>
         </Grid>
       </Container>
+
+      <AddPostForm open={open} handleClose={handleClose} />
     </>
   );
 };
