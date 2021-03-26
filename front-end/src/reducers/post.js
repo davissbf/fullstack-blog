@@ -12,10 +12,10 @@ const postReducer = (state = initialState, action) => {
         posts: action.payload,
       };
 
-      default:
-        return {
-          ...state,
-        };
+    default:
+      return {
+        ...state,
+      };
   }
 };
 
