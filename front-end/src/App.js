@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchPosts } from './actions/post';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  Link,
+} from 'react-router-dom';
 import {
   CssBaseline,
   Container,
@@ -11,14 +19,34 @@ import {
   Button,
   IconButton,
 } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/MenuBook';
 import PenIcon from '@material-ui/icons/Create';
-
-import useStyle from './styles';
 import PostsList from './components/PostsList/index';
 import AddPostForm from './components/AddPostForm/index';
+import PostDetails from './components/PostDetails/index';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  container: {
+    marginTop: theme.spacing(3),
+  },
+}));
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -28,50 +56,54 @@ const App = () => {
     setOpen(false);
   };
 
-  const classes = useStyle();
-
+  const classes = useStyles();
   return (
     <>
       <CssBaseline />
       <Container maxWidth="lg">
-        <AppBar position="static" color="inherit" elevation="0">
+        <AppBar position="static" color="inherit" elevation={0}>
           <Toolbar>
             <IconButton
               edge="start"
-              className={classes.container}
+              className={classes.menuButton}
               color="inherit"
-            />
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
 
             <Typography
               variant="h6"
               color="secondary"
               className={classes.title}
             >
-              <Link to="http://localhost:3000/posts">FullStackBlog</Link>
+              <Link href="http://localhost:3000/posts">Blogify</Link>
             </Typography>
 
             <Button
               color="primary"
               variant="outlined"
               startIcon={<PenIcon />}
-              onCLick={handleOpen()}
+              onClick={handleOpen}
             >
-              Nova Postagem
+              Yeni Yazı
             </Button>
           </Toolbar>
         </AppBar>
-
         <Grid container className={classes.container}>
           <Grid item xs={12}>
-            <Switch>
-              <Route exact path="/posts" conponent={PostsList} />
-            </Switch>
-            <Redirect from="/" to="/posts" />
+            <Router>
+              <Switch>
+                <Route exact path="/posts" component={PostsList} />
+                <Route exact path="/posts/:id" component={PostDetails} />
+              </Switch>
+              <Redirect from="/" to="/posts" />
+            </Router>
           </Grid>
         </Grid>
-      </Container>
 
-      <AddPostForm open={open} handleClose={handleClose} />
+        <AddPostForm open={open} handleClose={handleClose} />
+      </Container>
     </>
   );
 };
