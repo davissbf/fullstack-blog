@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchPosts } from './actions/post';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  Link,
-} from 'react-router-dom';
+import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import {
   CssBaseline,
   Container,
@@ -71,37 +65,32 @@ const App = () => {
             >
               <MenuIcon />
             </IconButton>
-
             <Typography
               variant="h6"
               color="secondary"
               className={classes.title}
             >
-              <Link href="http://localhost:3000/posts">Blogify</Link>
+              <Link to="http://localhost:3000/posts">FullStackBlog</Link>
             </Typography>
-
             <Button
               color="primary"
               variant="outlined"
               startIcon={<PenIcon />}
               onClick={handleOpen}
             >
-              Yeni Yazı
+              Nova Postagem
             </Button>
           </Toolbar>
         </AppBar>
         <Grid container className={classes.container}>
           <Grid item xs={12}>
-            <Router>
-              <Switch>
-                <Route exact path="/posts" component={PostsList} />
-                <Route exact path="/posts/:id" component={PostDetails} />
-              </Switch>
-              <Redirect from="/" to="/posts" />
-            </Router>
+            <Switch>
+              <Route exact path="/posts" component={PostsList} />
+              <Route exact path="/posts/:id" component={PostDetails} />
+            </Switch>
+            <Redirect from="/" to="/posts" />
           </Grid>
         </Grid>
-
         <AddPostForm open={open} handleClose={handleClose} />
       </Container>
     </>

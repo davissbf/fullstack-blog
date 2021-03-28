@@ -57,6 +57,7 @@ const AddPostForm = ({ open, handleClose }) => {
   };
 
   const classes = useStyles();
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle> Criar nova postagem</DialogTitle>
@@ -69,7 +70,7 @@ const AddPostForm = ({ open, handleClose }) => {
           <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               id="title"
-              label="Başlık"
+              label="Título"
               name="title"
               variant="outlined"
               className={classes.textField}
@@ -80,7 +81,7 @@ const AddPostForm = ({ open, handleClose }) => {
             />
             <TextField
               id="subtitle"
-              label="Alt Başlık"
+              label="Legenda"
               name="subtitle"
               variant="outlined"
               className={classes.textField}
@@ -111,7 +112,7 @@ const AddPostForm = ({ open, handleClose }) => {
 
             <TextField
               id="content"
-              label="İçerik"
+              label="Conteúdo"
               name="content"
               multiline
               size="small"
