@@ -38,6 +38,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
