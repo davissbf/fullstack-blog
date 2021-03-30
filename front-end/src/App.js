@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchPosts } from './actions/post';
 import { makeStyles } from '@material-ui/core/styles';
-import { Switch, Route, Redirect, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import {
   CssBaseline,
   Container,
@@ -38,7 +44,6 @@ const App = () => {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
@@ -85,11 +90,13 @@ const App = () => {
         </AppBar>
         <Grid container className={classes.container}>
           <Grid item xs={12}>
-            <Switch>
-              <Route exact path="/posts" component={PostsList} />
-              <Route exact path="/posts/:id" component={PostDetails} />
-            </Switch>
-            <Redirect from="/" to="/posts" />
+            <Router>
+              <Switch>
+                <Route exact path="/posts" component={PostsList} />
+                <Route exact path="/posts/:id" component={PostDetails} />
+              </Switch>
+              <Redirect from="/" to="/posts" />
+            </Router>
           </Grid>
         </Grid>
         <AddPostForm open={open} handleClose={handleClose} />
