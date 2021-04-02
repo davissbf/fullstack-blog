@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tags = ['fun', 'programming', 'health', 'science'];
+const tags = ['outros', 'progrmação', 'saúde', 'siência'];
 
 const postSchema = yup.object().shape({
   title: yup.string().required(),
