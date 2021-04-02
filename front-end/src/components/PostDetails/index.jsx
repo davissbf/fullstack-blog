@@ -1,7 +1,7 @@
 import React from 'react';
 
-function PostDetails() {
-  return <div></div>;
-}
+const PostDetails = () => {
+  return <></>;
+};
 
 export default PostDetails;
