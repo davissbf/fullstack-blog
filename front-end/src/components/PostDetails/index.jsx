@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PostDetails = ({ history, location, match }) => {
-  const dispatch = useDispatch();
   const { id } = match.params;
+  const dispatch = useDispatch();
 
   const currentPost = useSelector((state) => state.posts.currentPost);
 
