@@ -33,8 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PostDetails = ({ history, location, match }) => {
-  const { id } = match.params;
   const dispatch = useDispatch();
+  const { id } = match.params;
+
+  const currentPost = useSelector((state) => state.posts.currentPost);
 
   useEffect(() => {
     dispatch(fetchSinglePost(id));
@@ -42,7 +44,63 @@ const PostDetails = ({ history, location, match }) => {
 
   const classes = useStyles();
 
-  return <>Post Details</>;
+  return (
+    <Paper className={classes.paper} elevation={0}>
+      {editMode ? (
+        <EditPostForm post={currentPost} closeEditMode={closeEditMode} />
+      ) : (
+        <div>
+          <div className={classes.header}>
+            <Typography variant="h5" gutterBottom>
+              {currentPost?.title}
+            </Typography>
+            <div>
+              <Button
+                color="primary"
+                variant="outlined"
+                startIcon={<EditIcon />}
+                onClick={openEditMode}
+              >
+                Düzenle
+              </Button>{' '}
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={removePost}
+                startIcon={<DeleteIcon />}
+              >
+                Sil
+              </Button>
+            </div>
+          </div>
+
+          <Divider />
+          <Typography variant="overline" gutterBottom>
+            {currentPost?.subtitle}
+          </Typography>
+          <Typography variant="caption" component="p" gutterBottom>
+            {convertRelativeTime(currentPost?.createdAt)} by Didem
+          </Typography>
+          <Chip
+            label={`# ${currentPost?.tag}`}
+            variant="outlined"
+            className={classes.chip}
+          />
+
+          <div className={classes.content}>
+            <img
+              src={currentPost?.image || noImage}
+              alt="Post"
+              className={classes.image}
+            />
+            <Typography variant="body1" gutterBottom>
+              {currentPost?.content}
+            </Typography>
+          </div>
+        </div>
+      )}
+    </Paper>
+  );
 };
 
 export default PostDetails;
