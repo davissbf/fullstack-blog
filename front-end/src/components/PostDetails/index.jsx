@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper, Divider, Button, Chip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-// import EditPostForm from './EditPostForm';
+import EditPostForm from '../EditPostForm';
 import { fetchSinglePost, deletePost } from '../../actions/post';
 import noImage from '../../assets/noimage.svg';
 
@@ -38,9 +38,28 @@ const PostDetails = ({ history, location, match }) => {
 
   const currentPost = useSelector((state) => state.posts.currentPost);
 
+  const [editMode, setEditMode] = useState(false);
+
   useEffect(() => {
     dispatch(fetchSinglePost(id));
   }, [dispatch, id]);
+
+  const convertRelativeTime = (date) => {
+    return moment(date).fromNow();
+  };
+
+  const removePost = () => {
+    dispatch(deletePost(currentPost._id));
+    history.push('/posts');
+  };
+
+  const openEditMode = () => {
+    setEditMode(true);
+  };
+
+  const closeEditMode = () => {
+    setEditMode(false);
+  };
 
   const classes = useStyles();
 
@@ -61,7 +80,7 @@ const PostDetails = ({ history, location, match }) => {
                 startIcon={<EditIcon />}
                 onClick={openEditMode}
               >
-                Düzenle
+                Editar
               </Button>{' '}
               <Button
                 color="secondary"
@@ -69,7 +88,7 @@ const PostDetails = ({ history, location, match }) => {
                 onClick={removePost}
                 startIcon={<DeleteIcon />}
               >
-                Sil
+                Excluir
               </Button>
             </div>
           </div>

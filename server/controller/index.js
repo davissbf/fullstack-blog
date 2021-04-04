@@ -34,3 +34,28 @@ export const createPost = async(req, res) => {
     });
   };
 };
+
+export const updatePost = async (req, res) => {
+  const { id: _id } = req.params;
+  const post = req.body;
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(_id, post, { new: true });
+    res.json(updatedPost);
+  } catch (error) {
+    res.status(409).json({
+      message: error.message,
+    });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  const { id: _id } = req.params;
+  try {
+    const deletedPost = await Post.findByIdAndRemove(_id);
+    res.json(deletedPost);
+  } catch (error) {
+    res.status(409).json({
+      message: error.message,
+    });
+  }
+};
